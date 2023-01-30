@@ -13,7 +13,15 @@ Uses [dearpygui](https://github.com/hoffstadt/DearPyGui).
 Dataframes with images
 
 [x] Show rows of images from urls.
+[x] Show/hide images.
 [ ] Paginate and dynamic textures.
+[ ] Load column data types from config.
+[ ] Layout rows with images and rest from config.
+[ ] Show/hide columns.
+[ ] Sort columns ( needs to be global ).
+[ ] Filter columns ( needs to be global ).
+[ ] Meta column with multiple images and switch.
+[ ] Comments and listboxes for rows.
 
 ## Database/csv plots 
 
