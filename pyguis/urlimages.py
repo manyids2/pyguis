@@ -15,6 +15,9 @@ class Settings:
     height: int = 1000
     width: int = 1000
 
+    iheight: int = 200
+    iwidth: int = 200
+
     show_images = True
     n_rows: int = 0
 
@@ -95,14 +98,12 @@ class App:
     def handle_first(sender, app_data, user_data):
         del sender, app_data
         user_data.settings.current = 1
-        user_data.set_page()
         user_data.render()
 
     @staticmethod
     def handle_prev(sender, app_data, user_data):
         del sender, app_data
         user_data.settings.current = max(1, user_data.settings.current - 1)
-        user_data.set_page()
         user_data.render()
 
     @staticmethod
@@ -111,14 +112,12 @@ class App:
         user_data.settings.current = min(
             user_data.settings.n_pages, user_data.settings.current + 1
         )
-        user_data.set_page()
         user_data.render()
 
     @staticmethod
     def handle_last(sender, app_data, user_data):
         del sender, app_data
         user_data.settings.current = user_data.settings.n_pages
-        user_data.set_page()
         user_data.render()
 
     def setup_handlers(self):
@@ -126,16 +125,40 @@ class App:
             dpg.add_key_press_handler(callback=self.key_press_handler)
 
     def setup_textures(self):
-        for _, row in self.df.iterrows():
-            image = image_from_url(f"{row.base_url}/{row.image}")
+        # Set heights and widths to be constants
+        width, height = self.settings.iwidth, self.settings.iheight
+        self.textures = {}
+        for idx in range(self.settings.n_per_page):
+            self.textures[idx] = {}
             with dpg.texture_registry(show=False):
-                dpg.add_raw_texture(
-                    width=image.size[0],
-                    height=image.size[1],
-                    default_value=(np.array(image).astype(float) / 255.0).flatten(),  # type: ignore
-                    format=dpg.mvFormat_Float_rgb,
-                    tag=row.image,
+                for column in self.image_columns:
+                    self.textures[idx][column] = np.zeros(
+                        [height, width, 3], dtype=float
+                    ).flatten()
+                    dpg.add_raw_texture(
+                        width=width,
+                        height=height,
+                        default_value=self.textures[idx][column],  # type: ignore
+                        format=dpg.mvFormat_Float_rgb,
+                        tag=f"image-{idx}-{column}",
+                    )
+
+    def reload_textures(self):
+        # Set heights and widths to be constants
+        width, height = self.settings.iwidth, self.settings.iheight
+        for idx in range(self.settings.n_per_page):
+            _idx = (self.settings.current - 1) * self.settings.n_per_page + idx
+            if _idx >= self.settings.n_rows:
+                break
+            row = self.rows.iloc[idx, :]
+            for column in self.image_columns:
+                image = image_from_url(f"{row.base_url}/{row.image}")
+                image = image.resize((width, height))
+                np.copyto(
+                    self.textures[idx][column],
+                    (np.array(image).astype(float) / 255).flatten(),
                 )
+                print(f"Set: {idx}, {_idx}, {column}, {image}")
 
     def render_settings(self):
         with dpg.group(label="settings", parent="primary_window"):
@@ -204,20 +227,24 @@ class App:
     def render(self):
         dpg.delete_item("pages_group")
         dpg.delete_item("table_group")
+        self.set_page()
         self.render_pages()
+        self.reload_textures()
         with dpg.group(tag="table_group", parent="primary_window"):
             with dpg.table(header_row=True, tag="main_table"):
                 for column in self.columns:
                     dpg.add_table_column(label=column)
 
-                for i in range(len(self.rows)):
-                    with dpg.table_row(tag=f"table__row-{i}"):
-                        row = self.rows.iloc[i, :]
+                for idx in range(len(self.rows)):
+                    with dpg.table_row(tag=f"table__row-{idx}"):
+                        row = self.rows.iloc[idx, :]
                         for column in self.columns:
-                            tag = f"table__cell-{i}-{column}"
+                            tag = f"table__cell-{idx}-{column}"
                             is_image = column in self.image_columns
                             if is_image and self.settings.show_images:
-                                dpg.add_image(texture_tag=row.image, tag=tag)
+                                dpg.add_image(
+                                    texture_tag=f"image-{idx}-{column}", tag=tag
+                                )
                             else:
                                 dpg.add_text(row[column], tag=tag)
 
