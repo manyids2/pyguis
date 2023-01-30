@@ -14,11 +14,7 @@ from pyguis.utils.images import image_from_url
 class Settings:
     height: int = 1000
     width: int = 1000
-
     show_images = True
-
-
-settings = Settings()
 
 
 class App:
@@ -32,6 +28,7 @@ class App:
         self.metadata_path = metadata_path
         self.image_columns = image_columns
 
+        self.settings = Settings()
         self.load_csv()
 
         dpg.create_context()
@@ -46,7 +43,7 @@ class App:
         self.columns = list(self.df.columns)
 
     def setup_window(self):
-        width, height = settings.width, settings.height
+        width, height = self.settings.width, self.settings.height
         dpg.add_window(
             label="urlimages",
             width=width,
@@ -67,9 +64,9 @@ class App:
     def show_hide_handler(sender, app_data, user_data):
         del sender
         if app_data == "hide":
-            settings.show_images = False
+            user_data.settings.show_images = False
         elif app_data == "show":
-            settings.show_images = True
+            user_data.settings.show_images = True
         user_data.render()
 
     @staticmethod
@@ -132,7 +129,7 @@ class App:
                         for column in self.columns:
                             tag = f"table__cell-{i}-{column}"
                             is_image = column in self.image_columns
-                            if is_image and settings.show_images:
+                            if is_image and self.settings.show_images:
                                 dpg.add_image(texture_tag=row.image, tag=tag)
                             else:
                                 dpg.add_text(row[column], tag=tag)
@@ -146,7 +143,7 @@ class App:
 
         dpg.setup_dearpygui()
 
-        width, height = settings.width, settings.height
+        width, height = self.settings.width, self.settings.height
         dpg.create_viewport(title="pyguis", width=width, height=height)
         dpg.show_viewport()
         dpg.set_primary_window("primary_window", True)
