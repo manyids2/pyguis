@@ -1,14 +1,25 @@
-import tempfile
 from pathlib import Path
 
 from PIL import Image
 import urllib.request as request
 
+tmp_dir = Path("/tmp/pyguis/cache")
+tmp_dir.mkdir(exist_ok=True, parents=True)
 
-def image_from_url(url: str) -> Image.Image:
-    with tempfile.TemporaryFile() as tfile:
-        request.urlretrieve(url, str(tfile))
-        image = Image.open(str(tfile))
+
+def clean_url(url):
+    """Make it path friendly?"""
+    return url.replace(":", "-").replace("/", "-").replace(".", "-")
+
+
+def image_from_url(
+    url: str, tmp_dir: Path = tmp_dir, force: bool = False
+) -> Image.Image:
+    """Caches images in tmp_dir."""
+    fname = tmp_dir / clean_url(url)
+    if not fname.exists() or force:
+        request.urlretrieve(url, fname)
+    image = Image.open(fname)
     return image
 
 

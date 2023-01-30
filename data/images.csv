@@ -1,4 +1,4 @@
-color,image
-red,http://localhost:5555/red.png
-green,http://localhost:5555/green.png
-blue,http://localhost:5555/blue.png
+index,color,base_url,image
+1,red,http://localhost:5555/,red.png
+2,green,http://localhost:5555/,green.png
+3,blue,http://localhost:5555/,blue.png
