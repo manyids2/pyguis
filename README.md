@@ -16,12 +16,13 @@ Dataframes with images
 - [x] Show/hide images.
 - [x] Reload csv file.
 - [x] Paginate.
-- [ ] Dynamic textures.
-- [ ] Load column data types from config.
-- [ ] Layout rows with images and rest from config.
+- [x] Dynamic textures ( only load for those on page ).
+- [x] Key for reload.
 - [ ] Show/hide columns.
 - [ ] Sort columns ( needs to be global ).
 - [ ] Filter columns ( needs to be global ).
+- [ ] Load column data types from config.
+- [ ] Layout rows with images and rest from config.
 - [ ] Meta column with multiple images and switch.
 - [ ] Comments and listboxes for rows.
 

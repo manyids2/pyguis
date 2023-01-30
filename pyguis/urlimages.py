@@ -23,7 +23,7 @@ class Settings:
 
     current: int = 1
     n_pages: int = 1
-    n_per_page: int = 2
+    n_per_page: int = 5
 
 
 class App:
@@ -74,11 +74,14 @@ class App:
 
     @staticmethod
     def key_press_handler(sender, app_data, user_data):
-        del sender, user_data
+        del sender
         print(f"key pressed is: {app_data}")
         # q : quit
         if app_data == 81:
             dpg.stop_dearpygui()
+        # r : reload
+        if app_data == 82:
+            user_data.reload()
 
     @staticmethod
     def show_hide_handler(sender, app_data, user_data):
@@ -122,7 +125,7 @@ class App:
 
     def setup_handlers(self):
         with dpg.handler_registry():
-            dpg.add_key_press_handler(callback=self.key_press_handler)
+            dpg.add_key_press_handler(callback=self.key_press_handler, user_data=self)
 
     def setup_textures(self):
         # Set heights and widths to be constants
