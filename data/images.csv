@@ -1,0 +1,4 @@
+color,image
+red,http://localhost:5555/red.png
+green,http://localhost:5555/green.png
+blue,http://localhost:5555/blue.png

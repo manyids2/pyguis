@@ -4,3 +4,5 @@ poetry.lock
 
 env.fish
 
+docs/build
+
