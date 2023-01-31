@@ -2,7 +2,7 @@
 
 Guis for sql dbs, with support for reading images from http.
 
-Uses [dearpygui](https://github.com/hoffstadt/DearPyGui).
+Uses [dearpygui](https://dearpygui.readthedocs.io/en/latest/).
 
 ## Arguments
 
@@ -18,6 +18,7 @@ Dataframes with images
 - [x] Paginate.
 - [x] Dynamic textures ( only load for those on page ).
 - [x] Key for reload.
+- [ ] Define standard widgets.
 - [ ] Show/hide columns.
 - [ ] Sort columns ( needs to be global ).
 - [ ] Filter columns ( needs to be global ).

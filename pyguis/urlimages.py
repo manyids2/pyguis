@@ -161,7 +161,6 @@ class App:
                     self.textures[idx][column],
                     (np.array(image).astype(float) / 255).flatten(),
                 )
-                print(f"Set: {idx}, {_idx}, {column}, {image}")
 
     def render_settings(self):
         with dpg.group(label="settings", parent="primary_window"):

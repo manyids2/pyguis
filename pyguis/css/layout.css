@@ -1,0 +1,15 @@
+body {
+  display: grid;
+  grid-template-areas:
+    "navbar"
+    "content";
+  grid-template-rows: 3rem 1fr;
+}
+
+sidebar {
+  display: grid;
+  grid-template-areas:
+    "title"
+    "settings";
+  grid-template-rows: 3rem 1fr;
+}
