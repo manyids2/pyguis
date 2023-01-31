@@ -20,7 +20,7 @@ Dataframes with images
 - [x] Key for reload.
 - [ ] Define widgets.
     - [x] layout
-    - [ ] settings
+    - [x] settings - kinda
     - [ ] table ( paginated )
     - [ ] state ( debug )
 - [ ] Show/hide columns.

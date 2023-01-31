@@ -3,8 +3,6 @@ from dataclasses import dataclass
 
 import dearpygui.dearpygui as dpg
 
-dpg.create_context()
-
 
 @dataclass
 class LayoutSettings:
@@ -16,6 +14,7 @@ class LayoutSettings:
 
 class Layout:
     def __init__(self, settings: LayoutSettings):
+        dpg.create_context()
         self.settings = settings
         self.children = ["layout__navbar", "layout__sidebar", "layout__content"]
 
