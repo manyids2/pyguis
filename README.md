@@ -6,7 +6,7 @@ Uses [dearpygui](https://dearpygui.readthedocs.io/en/latest/).
 
 ## Arguments
 
-[.] Input commandline args in ImGUI window, get output as yaml.
+- [.] Input commandline args in ImGUI window, get output as yaml.
 
 ## urlimages
 
@@ -18,7 +18,11 @@ Dataframes with images
 - [x] Paginate.
 - [x] Dynamic textures ( only load for those on page ).
 - [x] Key for reload.
-- [ ] Define standard widgets.
+- [ ] Define widgets.
+    - [x] layout
+    - [ ] settings
+    - [ ] table ( paginated )
+    - [ ] state ( debug )
 - [ ] Show/hide columns.
 - [ ] Sort columns ( needs to be global ).
 - [ ] Filter columns ( needs to be global ).
@@ -51,4 +55,4 @@ Dataframes with images
 
 ## Database/csv plots 
 
-[ ] Given options to choose columns.
+- [ ] Given options to choose columns.
